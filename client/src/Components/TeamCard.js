@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import SeeMoreModal from './SeeMoreModal';
 
 const styles = theme => ({
   card: {
@@ -22,26 +23,31 @@ function TeamCard(props) {
 
 
   return (
-    <Card className={classes[props.className]}>
-      <CardContent>
-        <Typography variant="headline" component="h2">
-          {props.teamInfo.name}
-        </Typography>
-        <Typography variant="caption">
-          Members: {props.teamInfo.roster.length}
-        </Typography>
-        <Typography variant="caption">
-          Captain: {props.teamInfo.captain}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">See More</Button>
-        <Button size="small">Leave</Button>
-        {props.teamInfo.captain === props.userId &&
-          <Button onClick={() => props.handleTeamInviteOpen(props.teamInfo._id)} size="small">Invite</Button>
-        }
-      </CardActions>
-    </Card>
+    <React.Fragment>
+      <Card className={classes[props.className]}>
+        <CardContent>
+          <Typography variant="headline" component="h2">
+            {props.teamInfo.name}
+          </Typography>
+          <Typography variant="caption">
+            Members: {props.teamInfo.roster.length}
+          </Typography>
+          <Typography variant="caption">
+            Captain: {props.teamInfo.captain}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" onClick={() => props.handleSeeMore(props.teamInfo._id)}>See More</Button>
+          <Button size="small">Leave</Button>
+          {props.teamInfo.captain === props.userId &&
+            <Button onClick={() => props.handleTeamInviteOpen(props.teamInfo._id)} size="small">Invite</Button>
+          }
+        </CardActions>
+      </Card>
+      {props.seeMore &&
+        <SeeMoreModal title={props.teamInfo.name} info={props.teamInfo.roster}></SeeMoreModal>
+      }
+    </React.Fragment>
   );
 }
 

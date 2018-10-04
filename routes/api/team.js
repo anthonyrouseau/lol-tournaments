@@ -11,13 +11,13 @@ router.get('/', AuthMiddleware, (req,res) => {
   res.send('hello world')
 });
 */
-/*
+
 router.get('/by-id/:teamId', (req,res) => {
   Team.findById(req.params.teamId)
   .then(team => res.json(team))
   .catch(err => res.json({error: 'could not get team'}))
 });
-*/
+
 
 router.get('/by-user/:userId', (req,res) => {
   Team.find({roster: {$all: [req.params.userId]}})

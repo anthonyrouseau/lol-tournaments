@@ -1,9 +1,37 @@
 import { OPEN_CREATE_TEAM_MODAL, CLOSE_CREATE_TEAM_MODAL,
   CREATE_TEAM_FAILED, CREATE_TEAM_SUCCESS, TEAM_INVITE_FAILED,
-  TEAM_INVITE_SUCCESS, OPEN_TEAM_INVITE_MODAL, CLOSE_TEAM_INVITE_MODAL } from '../actions.js';
+  TEAM_INVITE_SUCCESS, OPEN_TEAM_INVITE_MODAL, CLOSE_TEAM_INVITE_MODAL,
+  GET_TEAM_INFO_FAILED, GET_TEAM_INFO_SUCCESS} from '../actions.js';
 
 import axios from 'axios';
 
+
+export function tryGetTeamInfo(teamId){
+  return (dispatch) => {
+    axios.post(`/api/teams/by-id/${teamId}`)
+    .then(res => {
+      if(res.data.error){
+        dispatch(getTeamInfoFailed(res.data.error))
+      }else{
+        dispatch(getTeamInfoSuccess(res.data))
+      }
+    })
+  }
+}
+
+function getTeamInfoFailed(payload){
+  return {
+    type: GET_TEAM_INFO_FAILED,
+    payload: payload
+  }
+}
+
+function getTeamInfoSuccess(payload){
+  return {
+    type: GET_TEAM_INFO_SUCCESS,
+    payload: payload
+  }
+}
 
 export function openTeamInviteModal(teamId){
   return {

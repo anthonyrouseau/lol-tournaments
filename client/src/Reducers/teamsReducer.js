@@ -1,6 +1,7 @@
 import { MY_TEAMS_SUCCESS, OPEN_CREATE_TEAM_MODAL, CLOSE_CREATE_TEAM_MODAL,
         CREATE_TEAM_FAILED, CREATE_TEAM_SUCCESS, TEAM_INVITE_FAILED,
-        TEAM_INVITE_SUCCESS, OPEN_TEAM_INVITE_MODAL, CLOSE_TEAM_INVITE_MODAL } from '../actions';
+        TEAM_INVITE_SUCCESS, OPEN_TEAM_INVITE_MODAL, CLOSE_TEAM_INVITE_MODAL,
+        GET_TEAM_INFO_FAILED, GET_TEAM_INFO_SUCCESS } from '../actions';
 
 
 
@@ -12,6 +13,13 @@ export default (state = {
   activeTeam: null
 }, action) => {
   switch(action.type){
+    case GET_TEAM_INFO_FAILED: {
+      return {...state}
+    }
+    case GET_TEAM_INFO_SUCCESS: {
+      let teamId = action.payload._id;
+      return {...state, allTeams[teamId]=action.payload}
+    }
     case MY_TEAMS_SUCCESS: {
       let myTeamIds = action.payload.map(team => team._id);
       let addedTeams = {};

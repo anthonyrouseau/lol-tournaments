@@ -8,7 +8,8 @@ import AddIcon from '@material-ui/icons/Add';
 import CreateTeamModal from './CreateTeamModal';
 import TeamInviteModal from './TeamInviteModal';
 import { openCreateTeamModal, closeCreateTeamModal, tryCreateTeam,
-openTeamInviteModal, closeTeamInviteModal, tryInvite } from '../Actions/MyTeams';
+openTeamInviteModal, closeTeamInviteModal, tryInvite,
+tryGetTeamInfo } from '../Actions/MyTeams';
 import { connect } from 'react-redux';
 
 
@@ -41,6 +42,10 @@ function MyTeams(props) {
     props.closeTeamInviteModal();
   }
 
+  function handleSeeMore(teamId){
+    props.seeMore(teamId);
+  }
+
   return (
     <React.Fragment>
       {props.createTeamModal &&
@@ -64,6 +69,7 @@ function MyTeams(props) {
         <TeamCard className="vertical" key={teamId}
           userId={props.userId} teamInfo={props.allTeams[teamId]}
           handleTeamInviteOpen={handleTeamInviteOpen}
+          handleSeeMore={handleSeeMore}
         />
       )}
     </React.Fragment>
@@ -105,6 +111,9 @@ const mapDispatchToProps = dispatch => {
     },
     tryTeamInvite: (inviteInfo, token) => {
       dispatch(tryInvite(inviteInfo, token))
+    },
+    seeMore: (teamId) => {
+      dispatch(tryGetTeamInfo(teamId))
     }
   }
 }
